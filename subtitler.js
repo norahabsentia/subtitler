@@ -77,39 +77,22 @@ function processVideo(callback) {
         }
     ];
 
-    // inquirer.prompt(questions).then(function (answers) {
-    //     var status = new Spinner(chalk.green('Extracting audio...'));
-    //     status.start();
-
-    //     extractAudio(answers.filename, function (err, filename) {
-    //         if (err) {
-    //             console.log(err.message);
-    //             status.stop();
-    //             return callback(err);
-    //         } else {
-    //             status.stop();
-    //             return callback(err, filename, answers.source, answers.casing);
-    //         }
-    //     });
-
-    // });
-
-    var filename = argv._[0] || null;
-    var source = argv._[1] || 'en'; 
-    var casing = argv._[2] || 'yes';
-    var status = new Spinner(chalk.green('Extracting audio...'));
+    inquirer.prompt(questions).then(function (answers) {
+        var status = new Spinner(chalk.green('Extracting audio...'));
         status.start();
 
-        extractAudio(filename, function (err, filename) {
+        extractAudio(answers.filename, function (err, filename) {
             if (err) {
                 console.log(err.message);
                 status.stop();
                 return callback(err);
             } else {
                 status.stop();
-                return callback(err, filename, source, casing);
+                return callback(err, filename, answers.source, answers.casing);
             }
         });
+
+    });
 }
 
 
